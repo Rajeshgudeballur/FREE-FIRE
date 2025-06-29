@@ -1,0 +1,1654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Fire Character Showcase</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            position: relative;
+        }
+        /* ==================== LOADING SCREEN ==================== */
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: #000;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 1.5s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.loading-screen.slide-up {
+    transform: translateY(-100%);
+}
+
+.loading-content {
+    text-align: center;
+    position: relative;
+}
+
+/* Logo Container */
+.garena-logo-container {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 40px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+}
+
+.garena-logo-container:hover {
+    transform: scale(1.1);
+}
+
+/* Logo Glow Effect */
+.logo-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300px;
+    height: 300px;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(255, 107, 53, 0.3) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: pulse-glow 2s infinite ease-in-out;
+}
+
+/* Main Logo */
+.garena-logo-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 120px;
+    height: 120px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    box-shadow: 
+        0 0 50px rgba(255, 107, 53, 0.5),
+        0 0 100px rgba(255, 107, 53, 0.3),
+        inset 0 0 50px rgba(255, 255, 255, 0.1);
+    transition: all 0.4s ease;
+    animation: logo-float 3s infinite ease-in-out;
+}
+
+.garena-logo-container:hover .garena-logo-loading {
+    box-shadow: 
+        0 0 80px rgba(255, 107, 53, 0.8),
+        0 0 150px rgba(255, 107, 53, 0.5),
+        inset 0 0 50px rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%) rotateY(15deg);
+}
+
+/* Rotating Ring */
+.logo-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 180px;
+    height: 180px;
+    transform: translate(-50%, -50%);
+    border: 2px solid transparent;
+    border-top: 2px solid rgba(255, 107, 53, 0.8);
+    border-right: 2px solid rgba(255, 107, 53, 0.4);
+    border-radius: 50%;
+    animation: rotate-ring 3s linear infinite;
+}
+
+.logo-ring::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    border: 1px solid transparent;
+    border-bottom: 1px solid rgba(255, 107, 53, 0.3);
+    border-left: 1px solid rgba(255, 107, 53, 0.2);
+    border-radius: 50%;
+    animation: rotate-ring-reverse 4s linear infinite;
+}
+
+/* Logo Particles */
+.logo-particles {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 240px;
+    height: 240px;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+.logo-particles::before,
+.logo-particles::after {
+    content: '';
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: rgba(255, 107, 53, 0.8);
+    border-radius: 50%;
+    box-shadow: 0 0 20px rgba(255, 107, 53, 0.6);
+}
+
+.logo-particles::before {
+    top: 20px;
+    left: 50%;
+    animation: orbit-particle 4s linear infinite;
+}
+
+.logo-particles::after {
+    bottom: 20px;
+    right: 50%;
+    animation: orbit-particle 4s linear infinite reverse;
+}
+
+/* Loading Text */
+.loading-text {
+    font-family: 'Orbitron', monospace;
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: 8px;
+    margin-bottom: 30px;
+    text-shadow: 
+        0 0 20px rgba(255, 107, 53, 0.5),
+        0 0 40px rgba(255, 107, 53, 0.3);
+}
+
+.loading-text span {
+    display: inline-block;
+    animation: wave-text 2s infinite ease-in-out;
+    animation-fill-mode: both;
+}
+
+.loading-text span:nth-child(1) { animation-delay: 0.1s; }
+.loading-text span:nth-child(2) { animation-delay: 0.2s; }
+.loading-text span:nth-child(3) { animation-delay: 0.3s; }
+.loading-text span:nth-child(4) { animation-delay: 0.4s; }
+.loading-text span:nth-child(5) { animation-delay: 0.5s; }
+.loading-text span:nth-child(6) { animation-delay: 0.6s; }
+
+/* Loading Bar */
+.loading-bar {
+    width: 300px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+    margin: 0 auto;
+    position: relative;
+}
+
+.loading-progress {
+    height: 100%;
+    background: linear-gradient(90deg, 
+        rgba(255, 107, 53, 0.8) 0%,
+        rgba(255, 107, 53, 1) 50%,
+        rgba(255, 107, 53, 0.8) 100%);
+    border-radius: 2px;
+    width: 0%;
+    animation: loading-progress 3s ease-out forwards;
+    box-shadow: 0 0 20px rgba(255, 107, 53, 0.6);
+}
+
+/* Loading Animations */
+@keyframes pulse-glow {
+    0%, 100% { 
+        opacity: 0.6; 
+        transform: translate(-50%, -50%) scale(1);
+    }
+    50% { 
+        opacity: 1; 
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+}
+
+@keyframes logo-float {
+    0%, 100% { transform: translate(-50%, -50%) translateY(0px); }
+    50% { transform: translate(-50%, -50%) translateY(-10px); }
+}
+
+@keyframes rotate-ring {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes rotate-ring-reverse {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(-360deg); }
+}
+
+@keyframes orbit-particle {
+    0% { transform: rotate(0deg) translateX(120px) rotate(0deg); }
+    100% { transform: rotate(360deg) translateX(120px) rotate(-360deg); }
+}
+
+@keyframes wave-text {
+    0%, 100% { 
+        transform: translateY(0px);
+        text-shadow: 
+            0 0 20px rgba(255, 107, 53, 0.5),
+            0 0 40px rgba(255, 107, 53, 0.3);
+    }
+    50% { 
+        transform: translateY(-10px);
+        text-shadow: 
+            0 0 30px rgba(255, 107, 53, 0.8),
+            0 0 60px rgba(255, 107, 53, 0.5);
+    }
+}
+
+@keyframes loading-progress {
+    0% { width: 0%; }
+    100% { width: 100%; }
+}
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    body {
+        background: #000;
+    }
+}
+
+/* Print styles */
+@media print {
+    .loading-screen,
+    .navigation,
+    .character-nav,
+    .background-layer {
+        display: none !important;
+    }
+    
+    .main-content {
+        opacity: 1 !important;
+    }
+    
+    .character-slide {
+        position: relative !important;
+        opacity: 1 !important;
+        transform: none !important;
+        page-break-inside: avoid;
+    }
+}
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .garena-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 18px;
+        }
+  .garena-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+        .header-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Main Container */
+        .showcase-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Background Layers */
+        .background-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            z-index: 1;
+        }
+
+        .background-layer.active {
+            opacity: 1;
+        }
+
+        /* Enhanced Character-specific backgrounds */
+        .bg-alok {
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(138, 43, 226, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(75, 0, 130, 0.4) 0%, transparent 50%),
+                linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        }
+
+        .bg-alok::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(138, 43, 226, 0.1) 2px,
+                    rgba(138, 43, 226, 0.1) 4px
+                );
+            animation: pulse-lines 3s ease-in-out infinite;
+        }
+
+        .bg-chrono {
+            background: 
+                radial-gradient(circle at 30% 40%, rgba(255, 215, 0, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 70% 80%, rgba(255, 140, 0, 0.3) 0%, transparent 50%),
+                linear-gradient(135deg, #2c1810 0%, #1a1a1a 50%, #0d1117 100%);
+        }
+
+        .bg-chrono::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                conic-gradient(from 0deg at 50% 50%, 
+                    transparent 0deg, 
+                    rgba(255, 215, 0, 0.1) 60deg, 
+                    transparent 120deg, 
+                    rgba(255, 140, 0, 0.1) 180deg, 
+                    transparent 240deg, 
+                    rgba(255, 215, 0, 0.1) 300deg, 
+                    transparent 360deg);
+            animation: rotate-time 8s linear infinite;
+        }
+
+        .bg-kelly {
+            background: 
+                radial-gradient(circle at 25% 25%, rgba(0, 191, 255, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(30, 144, 255, 0.3) 0%, transparent 50%),
+                linear-gradient(135deg, #0a1628 0%, #1e3a8a 50%, #1e40af 100%);
+        }
+
+        .bg-kelly::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                linear-gradient(90deg, 
+                    transparent 0%, 
+                    rgba(0, 191, 255, 0.1) 25%, 
+                    transparent 50%, 
+                    rgba(30, 144, 255, 0.1) 75%, 
+                    transparent 100%);
+            animation: speed-lines 2s ease-in-out infinite;
+        }
+
+        .bg-hayato {
+            background: 
+                radial-gradient(circle at 60% 30%, rgba(220, 20, 60, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 20% 70%, rgba(139, 0, 0, 0.4) 0%, transparent 50%),
+                linear-gradient(135deg, #1a0a0a 0%, #2d1b1b 50%, #0f0f0f 100%);
+        }
+
+        .bg-hayato::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 8px,
+                    rgba(220, 20, 60, 0.1) 8px,
+                    rgba(220, 20, 60, 0.1) 12px
+                );
+            animation: samurai-slash 4s ease-in-out infinite;
+        }
+
+        .bg-skyler {
+            background: 
+                radial-gradient(circle at 40% 60%, rgba(0, 255, 127, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(64, 224, 208, 0.3) 0%, transparent 50%),
+                linear-gradient(135deg, #0f1419 0%, #1a2332 50%, #0d1117 100%);
+        }
+
+        .bg-skyler::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle, 
+                    rgba(0, 255, 127, 0.1) 2px, 
+                    transparent 2px),
+                radial-gradient(circle, 
+                    rgba(64, 224, 208, 0.1) 1px, 
+                    transparent 1px);
+            background-size: 40px 40px, 20px 20px;
+            animation: tech-grid 3s linear infinite;
+        }
+
+        /* Animations */
+        @keyframes pulse-lines {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.7; }
+        }
+
+        @keyframes rotate-time {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes speed-lines {
+            0%, 100% { transform: translateX(-100%); }
+            50% { transform: translateX(100%); }
+        }
+
+        @keyframes samurai-slash {
+            0%, 100% { transform: translateX(-50%) skewX(0deg); }
+            50% { transform: translateX(50%) skewX(-15deg); }
+        }
+
+        @keyframes tech-grid {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(20px, 20px); }
+        }
+
+        /* FREE FIRE Background Text */
+        .background-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Orbitron', monospace;
+            font-size: 15vw;
+            font-weight: 900;
+            color: rgba(119, 119, 119, 0.534);
+            text-align: center;
+            white-space: nowrap;
+            z-index: 2;
+            user-select: none;
+            pointer-events: none;
+        }
+
+        /* Character Display Area */
+        .character-display {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 3;
+        }
+
+        .character-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(100px);
+            transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .character-slide.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Transition variants */
+        .character-slide.slide-up {
+            transform: translateY(100px);
+        }
+
+        .character-slide.slide-right {
+            transform: translateX(100px);
+        }
+
+        .character-slide.active.slide-up {
+            transform: translateY(0);
+        }
+
+        .character-slide.active.slide-right {
+            transform: translateX(0);
+        }
+
+        /* Character Info Panel */
+        .character-info {
+            position: absolute;
+            left: 60px;
+            top: 50%;
+            transform: translateY(-50%);
+            max-width: 500px;
+            z-index: 10;
+        }
+
+        .character-name {
+            font-family: 'Orbitron', monospace;
+            font-size: 4.5rem;
+            font-weight: 900;
+            color: #ffffff;
+            text-shadow: 
+                0 0 20px rgba(255, 255, 255, 0.5),
+                0 0 40px rgba(255, 255, 255, 0.3),
+                0 0 60px rgba(255, 255, 255, 0.1);
+            margin-bottom: 10px;
+            letter-spacing: 4px;
+            line-height: 0.9;
+        }
+
+        .character-subtitle {
+            font-size: 1.4rem;
+            color: #ff6b35;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .character-subtitle::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, #ff6b35, transparent);
+        }
+
+        .character-description {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.8;
+            margin-bottom: 30px;
+            font-weight: 400;
+        }
+
+        .character-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #ff6b35;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 5px;
+        }
+
+        .ability-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .ability-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+        }
+
+        .ability-info h3 {
+            font-size: 1.3rem;
+            color: #fff;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .ability-info p {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Character Image Area */
+        .character-image {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 60%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 5;
+        }
+
+        /* Navigation */
+        .navigation {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 20;
+        }
+
+        .nav-btn {
+            width: 60px;
+            height: 60px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 107, 53, 0.8);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 107, 53, 0.3);
+        }
+
+        /* Dots Indicator */
+        .dots-indicator {
+            position: fixed;
+            bottom: 120px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 20;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .dot.active {
+            background: #ff6b35;
+            transform: scale(1.5);
+        }
+
+        .dot.active::after {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            border: 2px solid rgba(255, 107, 53, 0.3);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+
+        /* Particle Effects */
+        .particle-system {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 4;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: float-particle 8s infinite ease-in-out;
+        }
+
+        @keyframes float-particle {
+            0%, 100% { 
+                transform: translateY(100vh) rotate(0deg); 
+                opacity: 0; 
+            }
+            10%, 90% { 
+                opacity: 1; 
+            }
+            50% { 
+                transform: translateY(-10vh) rotate(180deg); 
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .character-info {
+                left: 30px;
+                max-width: 400px;
+            }
+            
+            .character-name {
+                font-size: 3.5rem;
+            }
+            
+            .background-text {
+                font-size: 18vw;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .character-info {
+                left: 20px;
+                right: 20px;
+                max-width: none;
+                text-align: center;
+                top: 60%;
+            }
+            
+            .character-name {
+                font-size: 2.8rem;
+            }
+            
+            .character-image {
+                width: 100%;
+                right: 0;
+                top: 10%;
+                height: 50%;
+            }
+            
+            .background-text {
+                font-size: 25vw;
+            }
+            
+            .character-stats {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 15px;
+            }
+        }
+      
+    </style>
+</head>
+<body>
+     <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="garena-logo-container">
+                <div class="logo-glow"></div>
+                <img src="images/garena-logo.png" alt="Garena Logo" class="garena-logo-loading">
+                <div class="logo-ring"></div>
+                <div class="logo-particles"></div>
+            </div>
+            <div class="loading-text">
+                <span>G</span><span>A</span><span>R</span><span>E</span><span>N</span><span>A</span>
+            </div>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+        <div class="garena-logo">
+    <img src="images/garena-logo.png" alt="Garena Logo">
+</div>
+        <div class="header-title">Garena Free Fire</div>
+    </div>
+
+    <div class="showcase-container">
+        <!-- Background Layers -->
+        <div class="background-layer bg-alok active" data-bg="0"></div>
+        <div class="background-layer bg-chrono" data-bg="1"></div>
+        <div class="background-layer bg-kelly" data-bg="2"></div>
+        <div class="background-layer bg-hayato" data-bg="3"></div>
+        <div class="background-layer bg-skyler" data-bg="4"></div>
+
+        <!-- Background Text -->
+        <div class="background-text">FREE FIRE</div>
+
+        <!-- Particle System -->
+        <div class="particle-system" id="particles"></div>
+
+        <!-- Character Display -->
+        <div class="character-display">
+            <!-- Alok -->
+            <div class="character-slide active slide-up" data-character="0">
+                <div class="character-info">
+                    <h1 class="character-name">ALOK</h1>
+                    <p class="character-subtitle">DJ Master</p>
+                    <p class="character-description">
+                        World-renowned DJ with incredible healing abilities. Creates healing auras that restore HP while boosting team movement speed for aggressive pushes.
+                    </p>
+                    <div class="character-stats">
+                        <div class="stat-item">
+                            <span class="stat-value">A+</span>
+                            <span class="stat-label">Healing</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">S</span>
+                            <span class="stat-label">Support</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">A</span>
+                            <span class="stat-label">Speed</span>
+                        </div>
+                    </div>
+                    <div class="ability-container">
+                        <div class="ability-icon">♪</div>
+                        <div class="ability-info">
+                            <h3>Drop The Beat</h3>
+                            <p>Active Healing Zone</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="character-image">
+                    <img src="images/Alok.png" alt="Alok Character" style="max-height: 80%; max-width: 100%; object-fit: contain;">
+                </div>
+            </div>
+
+            <!-- Chrono -->
+            <div class="character-slide slide-right" data-character="1">
+                <div class="character-info">
+                    <h1 class="character-name">CHRONO</h1>
+                    <p class="character-subtitle">Time Lord</p>
+                    <p class="character-description">
+                        Bounty hunter from another dimension with time manipulation powers. Creates protective force fields while enhancing movement capabilities.
+                    </p>
+                    <div class="character-stats">
+                        <div class="stat-item">
+                            <span class="stat-value">S+</span>
+                            <span class="stat-label">Defense</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">A+</span>
+                            <span class="stat-label">Speed</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">S</span>
+                            <span class="stat-label">Utility</span>
+                        </div>
+                    </div>
+                    <div class="ability-container">
+                        <div class="ability-icon">⧖</div>
+                        <div class="ability-info">
+                            <h3>Time Turner</h3>
+                            <p>Force Field Shield</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="character-image">
+                    <img src="images/Chrono.png" alt="Chrono Character" style="max-height: 80%; max-width: 100%; object-fit: contain;">
+                </div>
+            </div>
+
+            <!-- Kelly -->
+            <div class="character-slide slide-up" data-character="2">
+                <div class="character-info">
+                    <h1 class="character-name">KELLY</h1>
+                    <p class="character-subtitle">Sprint Queen</p>
+                    <p class="character-description">
+                        Athletic champion with unmatched running speed. Perfect for rapid zone rotations and lightning-fast repositioning during intense firefights.
+                    </p>
+                    <div class="character-stats">
+                        <div class="stat-item">
+                            <span class="stat-value">S+</span>
+                            <span class="stat-label">Speed</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">A</span>
+                            <span class="stat-label">Mobility</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">B+</span>
+                            <span class="stat-label">Combat</span>
+                        </div>
+                    </div>
+                    <div class="ability-container">
+                        <div class="ability-icon">⚡</div>
+                        <div class="ability-info">
+                            <h3>Dash</h3>
+                            <p>Enhanced Sprinting</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="character-image">
+                    <img src="images/Kelly.png" alt="Kelly Character" style="max-height: 80%; max-width: 100%; object-fit: contain;">
+                </div>
+            </div>
+
+            <!-- Hayato -->
+            <div class="character-slide slide-right" data-character="3">
+                <div class="character-info">
+                    <h1 class="character-name">HAYATO</h1>
+                    <p class="character-subtitle">Legendary Samurai</p>
+                    <p class="character-description">
+                        Legendary samurai warrior with bushido mastery. Gains enhanced armor penetration that increases with reduced HP, making him deadlier when wounded.
+                    </p>
+                    <div class="character-stats">
+                        <div class="stat-item">
+                            <span class="stat-value">S</span>
+                            <span class="stat-label">Combat</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">A+</span>
+                            <span class="stat-label">Damage</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">S</span>
+                            <span class="stat-label">Bushido</span>
+                        </div>
+                    </div>
+                    <div class="ability-container">
+                        <div class="ability-icon">⚔️</div>
+                        <div class="ability-info">
+                            <h3>Bushido</h3>
+                            <p>Armor Penetration</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="character-image">
+                    <img src="images/Hayato.png" alt="Hayato Character" style="max-height: 80%; max-width: 100%; object-fit: contain;">
+                </div>
+            </div>
+
+            <!-- Skyler -->
+            <div class="character-slide slide-up" data-character="4">
+                <div class="character-info">
+                    <h1 class="character-name">SKYLER</h1>
+                    <p class="character-subtitle">CEO Prodigy</p>
+                    <p class="character-description">
+                        Young CEO with innovative technology skills. Deploys sonic waves to destroy gloo walls and creates HP recovery points for tactical advantages.
+                    </p>
+                    <div class="character-stats">
+                        <div class="stat-item">
+                            <span class="stat-value">A</span>
+                            <span class="stat-label">Support</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">S</span>
+                            <span class="stat-label">Utility</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">A+</span>
+                            <span class="stat-label">Recovery</span>
+                        </div>
+                    </div>
+                    <div class="ability-container">
+                        <div class="ability-icon">🔊</div>
+                        <div class="ability-info">
+                            <h3>Riptide Rhythm</h3>
+                            <p>Sonic Wave Tech</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="character-image">
+                    <img src="images/Skyler.png" alt="Skyler Character" style="max-height: 80%; max-width: 100%; object-fit: contain;">
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation">
+            <button class="nav-btn" id="prevBtn">‹</button>
+            <button class="nav-btn" id="nextBtn">›</button>
+        </div>
+
+        <!-- Dots Indicator -->
+        <div class="dots-indicator">
+            <div class="dot active" data-index="0"></div>
+            <div class="dot" data-index="1"></div>
+            <div class="dot" data-index="2"></div>
+            <div class="dot" data-index="3"></div>
+            <div class="dot" data-index="4"></div>
+        </div>
+    </div>
+
+    <script>
+ // Free Fire Character Showcase JavaScript
+class CharacterShowcase {
+    constructor() {
+        this.currentIndex = 0;
+        this.totalCharacters = 5;
+        this.isTransitioning = false;
+        this.autoSlideInterval = null;
+        this.autoSlideDelay = 8000; // 8 seconds
+        
+        this.init();
+    }
+
+    init() {
+        this.initElements();
+        this.initEventListeners();
+        this.initLoadingScreen();
+        this.initParticleSystem();
+        this.startAutoSlide();
+    }
+    
+
+    initElements() {
+        // Loading screen elements
+        this.loadingScreen = document.getElementById('loadingScreen');
+        this.mainContent = document.getElementById('mainContent');
+        this.loadingProgress = document.querySelector('.loading-progress');
+        
+        // Navigation elements
+        this.prevBtn = document.getElementById('prevBtn');
+        this.nextBtn = document.getElementById('nextBtn');
+        this.dots = document.querySelectorAll('.dot');
+        
+        // Character elements
+        this.characterSlides = document.querySelectorAll('.character-slide');
+        this.backgroundLayers = document.querySelectorAll('.background-layer');
+        
+        // Particle system
+        this.particleContainer = document.getElementById('particles');
+    }
+
+    initEventListeners() {
+        // Navigation buttons
+        this.prevBtn?.addEventListener('click', () => this.previousCharacter());
+        this.nextBtn?.addEventListener('click', () => this.nextCharacter());
+        
+        // Dot indicators
+        this.dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => this.goToCharacter(index));
+        });
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            switch(e.key) {
+                case 'ArrowLeft':
+                    this.previousCharacter();
+                    break;
+                case 'ArrowRight':
+                    this.nextCharacter();
+                    break;
+                case ' ':
+                    e.preventDefault();
+                    this.toggleAutoSlide();
+                    break;
+            }
+        });
+
+        // Touch/swipe support
+        this.initTouchControls();
+        
+        // Window resize
+        window.addEventListener('resize', () => this.handleResize());
+        
+        // Visibility change (pause auto-slide when tab is not active)
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                this.pauseAutoSlide();
+            } else {
+                this.resumeAutoSlide();
+            }
+        });
+    }
+
+    initLoadingScreen() {
+        // Simulate loading progress
+        let progress = 0;
+        const loadingInterval = setInterval(() => {
+            progress += Math.random() * 15;
+            if (progress >= 100) {
+                progress = 100;
+                clearInterval(loadingInterval);
+                setTimeout(() => this.hideLoadingScreen(), 500);
+            }
+            if (this.loadingProgress) {
+                this.loadingProgress.style.width = `${progress}%`;
+            }
+        }, 150);
+
+        // Add click to skip loading
+        this.loadingScreen?.addEventListener('click', () => {
+            clearInterval(loadingInterval);
+            this.hideLoadingScreen();
+        });
+    }
+
+    hideLoadingScreen() {
+        if (this.loadingScreen) {
+            this.loadingScreen.classList.add('slide-up');
+            setTimeout(() => {
+                this.loadingScreen.style.display = 'none';
+                this.mainContent?.classList.add('visible');
+                this.startShowcase();
+            }, 1500);
+        }
+    }
+
+    startShowcase() {
+        // Initialize first character
+        this.showCharacter(0);
+        
+        // Add entrance animations
+        setTimeout(() => {
+            document.body.classList.add('showcase-active');
+        }, 100);
+    }
+
+    showCharacter(index) {
+        if (this.isTransitioning) return;
+        
+        this.isTransitioning = true;
+        const previousIndex = this.currentIndex;
+        this.currentIndex = index;
+
+        // Update active states
+        this.updateActiveStates();
+        
+        // Handle character transitions
+        this.transitionCharacters(previousIndex, index);
+        
+        // Update background
+        this.updateBackground(index);
+        
+        // Reset transition flag
+        setTimeout(() => {
+            this.isTransitioning = false;
+        }, 1200);
+    }
+
+    transitionCharacters(fromIndex, toIndex) {
+        const fromSlide = this.characterSlides[fromIndex];
+        const toSlide = this.characterSlides[toIndex];
+
+        if (fromSlide) {
+            fromSlide.classList.remove('active');
+            // Add exit animation based on direction
+            const direction = toIndex > fromIndex ? 'slide-left' : 'slide-right';
+            fromSlide.classList.add(direction);
+            
+            setTimeout(() => {
+                fromSlide.classList.remove(direction);
+            }, 1200);
+        }
+
+        if (toSlide) {
+            // Add entrance animation
+            const direction = toIndex > fromIndex ? 'slide-right' : 'slide-left';
+            toSlide.classList.add(direction);
+            
+            setTimeout(() => {
+                toSlide.classList.add('active');
+                toSlide.classList.remove(direction);
+            }, 100);
+        }
+    }
+
+    updateBackground(index) {
+        this.backgroundLayers.forEach((layer, i) => {
+            if (i === index) {
+                layer.classList.add('active');
+            } else {
+                layer.classList.remove('active');
+            }
+        });
+    }
+
+    updateActiveStates() {
+        // Update dots
+        this.dots.forEach((dot, i) => {
+            if (i === this.currentIndex) {
+                dot.classList.add('active');
+            } else {
+                dot.classList.remove('active');
+            }
+        });
+    }
+
+    nextCharacter() {
+        const nextIndex = (this.currentIndex + 1) % this.totalCharacters;
+        this.showCharacter(nextIndex);
+        this.resetAutoSlide();
+    }
+
+    previousCharacter() {
+        const prevIndex = (this.currentIndex - 1 + this.totalCharacters) % this.totalCharacters;
+        this.showCharacter(prevIndex);
+        this.resetAutoSlide();
+    }
+
+    goToCharacter(index) {
+        if (index !== this.currentIndex) {
+            this.showCharacter(index);
+            this.resetAutoSlide();
+        }
+    }
+
+    // Auto-slide functionality
+    startAutoSlide() {
+        this.autoSlideInterval = setInterval(() => {
+            this.nextCharacter();
+        }, this.autoSlideDelay);
+    }
+
+    pauseAutoSlide() {
+        if (this.autoSlideInterval) {
+            clearInterval(this.autoSlideInterval);
+            this.autoSlideInterval = null;
+        }
+    }
+
+    resumeAutoSlide() {
+        if (!this.autoSlideInterval) {
+            this.startAutoSlide();
+        }
+    }
+
+    resetAutoSlide() {
+        this.pauseAutoSlide();
+        this.startAutoSlide();
+    }
+
+    toggleAutoSlide() {
+        if (this.autoSlideInterval) {
+            this.pauseAutoSlide();
+        } else {
+            this.startAutoSlide();
+        }
+    }
+
+    // Touch controls for mobile
+    initTouchControls() {
+        let startX = null;
+        let startY = null;
+        const minSwipeDistance = 50;
+
+        document.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+        });
+
+        document.addEventListener('touchmove', (e) => {
+            if (!startX || !startY) return;
+            
+            // Prevent scrolling during swipe
+            e.preventDefault();
+        }, { passive: false });
+
+        document.addEventListener('touchend', (e) => {
+            if (!startX || !startY) return;
+
+            const endX = e.changedTouches[0].clientX;
+            const endY = e.changedTouches[0].clientY;
+            
+            const deltaX = endX - startX;
+            const deltaY = endY - startY;
+            
+            // Check if horizontal swipe is dominant
+            if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > minSwipeDistance) {
+                if (deltaX > 0) {
+                    this.previousCharacter();
+                } else {
+                    this.nextCharacter();
+                }
+            }
+            
+            startX = null;
+            startY = null;
+        });
+    }
+
+    // Particle system
+    initParticleSystem() {
+        if (!this.particleContainer) return;
+
+        const particleCount = window.innerWidth < 768 ? 20 : 50;
+        
+        for (let i = 0; i < particleCount; i++) {
+            this.createParticle();
+        }
+    }
+
+    createParticle() {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        
+        // Random position
+        const x = Math.random() * window.innerWidth;
+        const y = Math.random() * window.innerHeight;
+        
+        // Random size and opacity
+        const size = Math.random() * 3 + 1;
+        const opacity = Math.random() * 0.5 + 0.1;
+        
+        // Random color based on current character
+        const colors = [
+            'rgba(138, 43, 226, ',  // Alok - Purple
+            'rgba(255, 215, 0, ',   // Chrono - Gold
+            'rgba(0, 191, 255, ',   // Kelly - Blue
+            'rgba(220, 20, 60, ',   // Hayato - Red
+            'rgba(0, 255, 127, '    // Skyler - Green
+        ];
+        
+        const color = colors[this.currentIndex] + opacity + ')';
+        
+        particle.style.cssText = `
+            position: fixed;
+            left: ${x}px;
+            top: ${y}px;
+            width: ${size}px;
+            height: ${size}px;
+            background: ${color};
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+            animation: float-particle ${Math.random() * 3 + 2}s ease-in-out infinite;
+        `;
+        
+        this.particleContainer.appendChild(particle);
+        
+        // Remove particle after animation
+        setTimeout(() => {
+            if (particle.parentNode) {
+                particle.parentNode.removeChild(particle);
+            }
+        }, 5000);
+    }
+
+    // Handle window resize
+    handleResize() {
+        // Update particle system on resize
+        if (this.particleContainer) {
+            this.particleContainer.innerHTML = '';
+            setTimeout(() => this.initParticleSystem(), 100);
+        }
+    }
+
+    // Add dynamic CSS animations
+    addDynamicStyles() {
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes float-particle {
+                0%, 100% {
+                    transform: translateY(0px) rotate(0deg);
+                    opacity: 0.1;
+                }
+                50% {
+                    transform: translateY(-20px) rotate(180deg);
+                    opacity: 0.5;
+                }
+            }
+            
+            @keyframes slide-left {
+                to {
+                    transform: translateX(-100px);
+                    opacity: 0;
+                }
+            }
+            
+            @keyframes slide-right {
+                to {
+                    transform: translateX(100px);
+                    opacity: 0;
+                }
+            }
+            
+            .particle {
+                box-shadow: 0 0 10px currentColor;
+            }
+            
+            .showcase-active .navigation {
+                animation: fadeInUp 0.5s ease 0.3s both;
+            }
+            
+            .showcase-active .dots-indicator {
+                animation: fadeInUp 0.5s ease 0.5s both;
+            }
+            
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+}
+
+// Enhanced Audio Manager (optional - for sound effects)
+class AudioManager {
+    constructor() {
+        this.sounds = {
+            transition: this.createAudioContext(440, 0.1, 0.2), // Subtle beep
+            hover: this.createAudioContext(800, 0.05, 0.1),    // High pitch hover
+            click: this.createAudioContext(600, 0.1, 0.15)     // Click sound
+        };
+        this.enabled = false; // Disabled by default, can be enabled by user interaction
+    }
+
+    createAudioContext(frequency, volume, duration) {
+        return () => {
+            if (!this.enabled) return;
+            
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = frequency;
+            oscillator.type = 'sine';
+            
+            gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+            gainNode.gain.linearRampToValueAtTime(volume, audioContext.currentTime + 0.01);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + duration);
+        };
+    }
+
+    enable() {
+        this.enabled = true;
+    }
+
+    disable() {
+        this.enabled = false;
+    }
+
+    play(soundName) {
+        if (this.sounds[soundName]) {
+            this.sounds[soundName]();
+        }
+    }
+}
+
+// Performance Monitor
+class PerformanceMonitor {
+    constructor() {
+        this.fps = 0;
+        this.lastTime = performance.now();
+        this.frameCount = 0;
+        this.isMonitoring = false;
+    }
+
+    start() {
+        this.isMonitoring = true;
+        this.monitor();
+    }
+
+    stop() {
+        this.isMonitoring = false;
+    }
+
+    monitor() {
+        if (!this.isMonitoring) return;
+
+        const currentTime = performance.now();
+        this.frameCount++;
+
+        if (currentTime - this.lastTime >= 1000) {
+            this.fps = Math.round((this.frameCount * 1000) / (currentTime - this.lastTime));
+            this.frameCount = 0;
+            this.lastTime = currentTime;
+            
+            // Adjust particle count based on performance
+            if (this.fps < 30 && window.characterShowcase) {
+                this.optimizePerformance();
+            }
+        }
+
+        requestAnimationFrame(() => this.monitor());
+    }
+
+    optimizePerformance() {
+        // Reduce particle count on low-end devices
+        const particles = document.querySelectorAll('.particle');
+        if (particles.length > 20) {
+            for (let i = 20; i < particles.length; i++) {
+                particles[i].remove();
+            }
+        }
+    }
+}
+
+// Initialize everything when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize main showcase
+    window.characterShowcase = new CharacterShowcase();
+    
+    // Add dynamic styles
+    window.characterShowcase.addDynamicStyles();
+    
+    // Initialize audio manager
+    window.audioManager = new AudioManager();
+    
+    // Initialize performance monitor
+    window.performanceMonitor = new PerformanceMonitor();
+    window.performanceMonitor.start();
+    
+    // Enable audio on first user interaction
+    document.addEventListener('click', () => {
+        window.audioManager.enable();
+    }, { once: true });
+    
+    // Add hover sound effects
+    document.querySelectorAll('.nav-btn, .dot').forEach(element => {
+        element.addEventListener('mouseenter', () => {
+            window.audioManager.play('hover');
+        });
+        
+        element.addEventListener('click', () => {
+            window.audioManager.play('click');
+        });
+    });
+});
+
+// Preload images for smooth transitions
+function preloadImages() {
+    const imageUrls = [
+        'images/garena-logo.png',
+        'images/Alok.png',
+        'images/Chrono.png',
+        'images/Kelly.png',
+        'images/Hayato.png',
+        'images/Skyler.png'
+    ];
+    
+    imageUrls.forEach(url => {
+        const img = new Image();
+        img.src = url;
+    });
+}
+
+// Start preloading immediately
+preloadImages();
+
+// Export for potential external usage
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { CharacterShowcase, AudioManager, PerformanceMonitor };
+}
+    </script>
+</body>
+</html>
